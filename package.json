@@ -1,0 +1,23 @@
+{
+  "name": "spotify-data",
+  "version": "1.0.0",
+  "description": "",
+  "main": "",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/joecal/spotify-data.git"
+  },
+  "keywords": [
+    "Spotify",
+    "Data"
+  ],
+  "author": "Joe Calvillo",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/joecal/spotify-data/issues"
+  },
+  "homepage": "https://github.com/joecal/spotify-data#readme"
+}
