@@ -1,0 +1,19 @@
+.wrapper {
+  position: relative;
+  height: 100%;
+}
+
+table {
+  width: 100%;
+}
+
+td {
+  font-size: 10px;
+}
+
+.spinner {
+  position: absolute;
+  z-index: 2;
+  top: 35vh;
+  left: 44%;
+}

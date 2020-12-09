@@ -1,0 +1,22 @@
+.cards-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+mat-card {
+  width: 200px;
+  height: 276px;
+  margin: 16px;
+}
+
+.elipsis {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  width: 200px;
+  display: block;
+  overflow: hidden;
+}
