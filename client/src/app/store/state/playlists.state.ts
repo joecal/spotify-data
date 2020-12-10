@@ -3,8 +3,8 @@ import { Action, Selector, State, StateContext } from '@ngxs/store';
 import {
   Playlist,
   PlaylistsDict,
-  PlaylistTrack,
 } from 'src/app/models/playlist.model';
+import { TrackItem } from 'src/app/models/track.model';
 import {
   ClearPlaylistTracks,
   CreatePlaylist,
@@ -17,7 +17,7 @@ import { PlaylistsService } from 'src/app/services/playlists.service';
 export interface PlaylistsStateModel {
   playlists: Playlist[];
   playlistsDict: PlaylistsDict;
-  playlistTracks: PlaylistTrack[];
+  playlistTracks: TrackItem[];
 }
 
 @State<PlaylistsStateModel>({

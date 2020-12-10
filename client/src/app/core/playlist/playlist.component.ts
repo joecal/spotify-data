@@ -7,10 +7,8 @@ import {
 import { ActivatedRoute } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subscription } from 'rxjs';
-import {
-  Playlist,
-  PlaylistTrack,
-} from 'src/app/models/playlist.model';
+import { Playlist } from 'src/app/models/playlist.model';
+import { TrackItem } from 'src/app/models/track.model';
 import { PlaylistsService } from 'src/app/services/playlists.service';
 import {
   ClearPlaylistTracks,
@@ -22,6 +20,7 @@ import { TableVirtualScrollDataSource } from 'ng-table-virtual-scroll';
 import { MatSort } from '@angular/material/sort';
 import { HttpHeaders } from '@angular/common/http';
 import { UserService } from 'src/app/services/user.service';
+import { Artist } from 'src/app/models/artist.model';
 
 @Component({
   selector: 'spotify-data-playlist',
@@ -31,14 +30,14 @@ import { UserService } from 'src/app/services/user.service';
 export class PlaylistComponent implements OnInit, OnDestroy {
   @ViewChild(MatSort, { static: false }) sort: MatSort;
   @Select(PlaylistsState.playlistTracks) playlistTracks$: Observable<
-    PlaylistTrack[]
+    TrackItem[]
   >;
   tvsItemSize: number;
   headerHeight: number;
   bufferMultiplier: number;
   playlist: Playlist;
-  playlistTracks: PlaylistTrack[];
-  tableDataSource: TableVirtualScrollDataSource<PlaylistTrack>;
+  playlistTracks: TrackItem[];
+  tableDataSource: TableVirtualScrollDataSource<TrackItem>;
   tableColumns: string[];
   loading: boolean;
   sortedBy: string;
@@ -102,7 +101,7 @@ export class PlaylistComponent implements OnInit, OnDestroy {
     );
     this.subscription.add(
       this.playlistTracks$.subscribe(
-        (playlistTracks: PlaylistTrack[]) => {
+        (playlistTracks: TrackItem[]) => {
           this.playlistTracks = playlistTracks;
           // console.log(
           //   'this.playlistTracks: ',
@@ -133,7 +132,7 @@ export class PlaylistComponent implements OnInit, OnDestroy {
             );
           }
           this.tableDataSource.sortingDataAccessor = (
-            playlistTrack: PlaylistTrack | any,
+            playlistTrack: TrackItem | any,
             property: string,
           ) => {
             switch (property) {
@@ -170,9 +169,9 @@ export class PlaylistComponent implements OnInit, OnDestroy {
     }
   }
 
-  getArtistNames(artists: any) {
+  getArtistNames(artists: Artist[]) {
     let name: string = '';
-    artists.forEach((artist: any) => {
+    artists.forEach((artist: Artist) => {
       name = name + artist.name + ', ';
     });
     name = name.substring(0, name.length - 2);

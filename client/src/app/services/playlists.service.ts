@@ -1,14 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { AppState } from '../models/app-state.model';
-import {
-  Playlist,
-  PlaylistsDict,
-  PlaylistTrack,
-} from '../models/playlist.model';
+import { Playlist, PlaylistsDict } from '../models/playlist.model';
+import { TrackItem } from '../models/track.model';
 import {
   AudioFeature,
   SpotifyGetApiAudioFeaturesResponse,
+  SpotifyGetApiResponse,
 } from '../models/spotify-api.model';
 import {
   GetPlaylists,
@@ -24,10 +22,10 @@ export class PlaylistsService {
     return new Promise(async (resolve, reject) => {
       try {
         let playlists: Playlist[];
-        const response = await this.apiService.get(
+        const response: SpotifyGetApiResponse = await this.apiService.get(
           'https://api.spotify.com/v1/me/playlists',
         );
-        playlists = response.items;
+        playlists = response.items as Playlist[];
         if (response.next) {
           const tracksToAdd = await this.apiService.getNext(
             response.next,
@@ -54,19 +52,17 @@ export class PlaylistsService {
     });
   }
 
-  async getPlaylistTracks(
-    playlistId: string,
-  ): Promise<PlaylistTrack[]> {
+  async getPlaylistTracks(playlistId: string): Promise<TrackItem[]> {
     return new Promise(async (resolve, reject) => {
       try {
         // let playlistTracks: PlaylistTrack[];
         const playlistTracks = await this.apiService.get(
           './assets/liked-songs.json',
         );
-        // const response = await this.apiService.get(
+        // const response: SpotifyGetApiResponse = await this.apiService.get(
         //   `https://api.spotify.com/v1/playlists/${playlistId}/tracks`,
         // );
-        // playlistTracks = response.items;
+        // playlistTracks = response.items as PlaylistTrack[];
         // let audioFeatures = await this.getPlaylistTracksAudioFeatures(
         //   playlistTracks,
         //   [],
@@ -233,10 +229,10 @@ export class PlaylistsService {
   // }
 
   private setAudioFeatures(
-    playlistTracks: PlaylistTrack[],
+    playlistTracks: TrackItem[],
     audioFeatures: AudioFeature[],
-  ): PlaylistTrack[] {
-    playlistTracks.forEach((playlistTrack: PlaylistTrack) => {
+  ): TrackItem[] {
+    playlistTracks.forEach((playlistTrack: TrackItem) => {
       audioFeatures.forEach((audioFeature: AudioFeature) => {
         if (playlistTrack.track.id === audioFeature.id) {
           playlistTrack.acousticness = audioFeature.acousticness;
@@ -264,7 +260,7 @@ export class PlaylistsService {
   }
 
   async getPlaylistTracksAudioFeatures(
-    playlistTracks: PlaylistTrack[],
+    playlistTracks: TrackItem[],
     collected: AudioFeature[],
   ): Promise<AudioFeature[]> {
     return new Promise(async (resolve, reject) => {
@@ -279,7 +275,7 @@ export class PlaylistsService {
             .slice(0, size)
             .map((i: any) => i);
           features = await this.getAudioFeatures(items);
-          items.forEach((track: PlaylistTrack) => {
+          items.forEach((track: TrackItem) => {
             const index = playlistTracksCopy.indexOf(track);
             if (index > -1) {
               playlistTracksCopy.splice(index, 1);
@@ -314,12 +310,12 @@ export class PlaylistsService {
   }
 
   async getAudioFeatures(
-    playlistTracks: PlaylistTrack[],
+    playlistTracks: TrackItem[],
   ): Promise<AudioFeature[]> {
     return new Promise(async (resolve, reject) => {
       try {
         let ids = playlistTracks.map(
-          (playlistTrack: PlaylistTrack) => playlistTrack.track.id,
+          (playlistTrack: TrackItem) => playlistTrack.track.id,
         );
         ids = ids.reduce(function (a: any, b: any) {
           if (a.indexOf(b) < 0) a.push(b);

@@ -1,0 +1,38 @@
+<div class="albums-container">
+  <mat-progress-bar
+    *ngIf="loading"
+    color="accent"
+    mode="indeterminate"
+  ></mat-progress-bar>
+  <ng-container *ngIf="albumItems">
+    <mat-card
+      class="c-pointer"
+      *ngFor="let albumItem of albumItems"
+      (click)="goToAlbum(albumItem)"
+    >
+      <mat-card-header>
+        <mat-card-title
+          #albumName
+          class="elipsis"
+          [matTooltip]="
+            isTextOverflowing(albumName)
+              ? albumItem.album.name
+              : null!
+          "
+          >{{ albumItem.album.name }}</mat-card-title
+        >
+        <mat-card-subtitle
+          >Artist:
+          {{
+            getArtistNames(albumItem.album.artists)
+          }}</mat-card-subtitle
+        >
+      </mat-card-header>
+      <img
+        *ngIf="albumItem.album.images[0]"
+        mat-card-image
+        [src]="albumItem.album.images[0].url"
+      />
+    </mat-card>
+  </ng-container>
+</div>

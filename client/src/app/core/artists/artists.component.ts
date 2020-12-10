@@ -7,21 +7,19 @@ import {
 import { Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subscription } from 'rxjs';
-import { Playlist } from 'src/app/models/playlist.model';
-import { GetPlaylists } from 'src/app/store/actions/playlists.actions';
-import { PlaylistsState } from 'src/app/store/state/playlists.state';
+import { Artist } from 'src/app/models/artist.model';
+import { GetUsersFollowedArtists } from 'src/app/store/actions/user.actions';
+import { UserState } from 'src/app/store/state/user.state';
 
 @Component({
-  selector: 'spotify-data-playlists',
-  templateUrl: './playlists.component.html',
-  styleUrls: ['./playlists.component.scss'],
+  selector: 'spotify-data-artists',
+  templateUrl: './artists.component.html',
+  styleUrls: ['./artists.component.scss'],
 })
-export class PlaylistsComponent implements OnInit, OnDestroy {
-  @Select(PlaylistsState.playlists) playlists$: Observable<
-    Playlist[]
-  >;
+export class ArtistsComponent implements OnInit, OnDestroy {
+  @Select(UserState.followedArtists) artists$: Observable<Artist[]>;
   loading: boolean;
-  playlists: Playlist[];
+  artists: Artist[];
 
   private subscription: Subscription;
 
@@ -45,25 +43,25 @@ export class PlaylistsComponent implements OnInit, OnDestroy {
 
   private setSubscription() {
     this.subscription.add(
-      this.playlists$.subscribe((playlists: Playlist[]) => {
-        this.playlists = playlists;
+      this.artists$.subscribe((artists: Artist[]) => {
+        this.artists = artists;
         this.changeDetectorRef.detectChanges();
-        if (this.loading && this.playlists.length > 0) {
+        if (this.loading && this.artists.length > 0) {
           this.loading = false;
-        } else if (this.loading && this.playlists.length === 0) {
+        } else if (this.loading && this.artists.length === 0) {
           setTimeout(() => {
             if (this.loading) {
               this.loading = false;
             }
           }, 5000);
         }
-        console.log('this.playlists: ', this.playlists);
+        console.log('this.artists: ', this.artists);
       }),
     );
   }
 
   private loadData() {
-    this.store.dispatch(new GetPlaylists());
+    this.store.dispatch(new GetUsersFollowedArtists());
   }
 
   isTextOverflowing(element: HTMLElement): boolean {
@@ -74,7 +72,7 @@ export class PlaylistsComponent implements OnInit, OnDestroy {
     }
   }
 
-  goToPlaylist(playlist: Playlist) {
-    this.router.navigateByUrl(`/playlist/${playlist.id}`);
+  goToArtist(artist: Artist) {
+    this.router.navigateByUrl(`/artist/${artist.id}`);
   }
 }

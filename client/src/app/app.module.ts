@@ -21,6 +21,7 @@ import { SharedModule } from './shared/shared.module';
 import { PlaylistsService } from './services/playlists.service';
 import { ApiService } from './services/api.service';
 import { UserService } from './services/user.service';
+import { UserState } from './store/state/user.state';
 
 @NgModule({
   declarations: [AppComponent, PageNotFoundComponent, LoginComponent],
@@ -29,7 +30,7 @@ import { UserService } from './services/user.service';
     AppRoutingModule,
     BrowserAnimationsModule,
     HttpClientModule,
-    NgxsModule.forRoot([AuthState, PlaylistsState]),
+    NgxsModule.forRoot([AuthState, PlaylistsState, UserState]),
     SharedModule,
     // NgxsStoragePluginModule.forRoot({ key: 'auth' }),
   ],

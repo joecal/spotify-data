@@ -58,7 +58,7 @@ export class AuthState implements NgxsOnInit {
 
   @Action(LogIn)
   logIn(): void {
-    window.location.href = `https://accounts.spotify.com/authorize?client_id=${this.clientId}&response_type=code&redirect_uri=${this.redirectUri}&scope=playlist-modify-public playlist-modify-private playlist-read-private playlist-read-collaborative&show_dialog=false`;
+    window.location.href = `https://accounts.spotify.com/authorize?client_id=${this.clientId}&response_type=code&redirect_uri=${this.redirectUri}&scope=ugc-image-upload user-read-recently-played user-read-playback-state user-top-read app-remote-control playlist-modify-public user-modify-playback-state playlist-modify-private user-follow-modify user-read-currently-playing user-follow-read user-library-modify user-read-playback-position playlist-read-private user-read-email user-read-private user-library-read playlist-read-collaborative streaming&show_dialog=false`;
   }
 
   @Action(LogOut)

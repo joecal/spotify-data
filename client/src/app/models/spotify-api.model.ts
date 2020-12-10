@@ -1,6 +1,11 @@
+import { AlbumItem } from './album.model';
+import { Artist } from './artist.model';
+import { Playlist } from './playlist.model';
+import { Track } from './track.model';
+
 export interface SpotifyGetApiResponse {
   href: string;
-  items: any;
+  items: Playlist[] | Artist[] | Track[] | AlbumItem[];
   limit: number;
   next: string;
   offset: number;
@@ -41,4 +46,34 @@ export interface Image {
   height: number;
   width: number;
   url: string;
+}
+
+export interface Followers {
+  href: string;
+  total: number;
+}
+
+export interface Copyright {
+  text: string;
+  type: string;
+}
+
+export interface ExternalId {
+  [key: string]: string;
+}
+
+export interface AddedBy {
+  external_urls: ExternalUrl;
+  href: string;
+  id: string;
+  type: string;
+  uri: string;
+}
+
+export interface TrackVideoThumbnail {
+  url: string;
+}
+
+export interface Cursors {
+  after: number | null;
 }
