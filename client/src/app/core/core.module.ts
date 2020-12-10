@@ -6,6 +6,8 @@ import { HomeComponent } from './home/home.component';
 import { PlaylistsComponent } from './playlists/playlists.component';
 import { PlaylistComponent } from './playlist/playlist.component';
 import { PlaylistsService } from '../services/playlists.service';
+import { ArtistsComponent } from './artists/artists.component';
+import { AlbumsComponent } from './albums/albums.component';
 
 @NgModule({
   declarations: [
@@ -13,6 +15,8 @@ import { PlaylistsService } from '../services/playlists.service';
     HomeComponent,
     PlaylistsComponent,
     PlaylistComponent,
+    ArtistsComponent,
+    AlbumsComponent,
   ],
   imports: [SharedModule, CoreRoutingModule],
   providers: [PlaylistsService],

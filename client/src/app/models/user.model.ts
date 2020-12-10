@@ -1,4 +1,4 @@
-import { ExternalUrl, Image } from './spotify-api.model';
+import { ExternalUrl, Followers, Image } from './spotify-api.model';
 
 export interface UserProfile {
   country: string;
@@ -12,9 +12,4 @@ export interface UserProfile {
   product: string;
   type: string;
   uri: string;
-}
-
-interface Followers {
-  href: string;
-  total: number;
 }

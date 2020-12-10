@@ -1,0 +1,28 @@
+.home-container {
+  width: 100%;
+}
+
+.card-item {
+  width: 225px;
+  height: 276px;
+  margin: 16px;
+  background-color: #2c2c2c;
+}
+
+.elipsis {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  width: 180px;
+  display: block;
+  overflow: hidden;
+}
+
+.carousel-container {
+  padding: 0;
+  margin: 16px;
+}
+
+.carousel-header {
+  background-color: #2c2c2c;
+  padding-left: 16px;
+}

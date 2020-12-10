@@ -1,4 +1,4 @@
-import { PlaylistTrack } from 'src/app/models/playlist.model';
+import { TrackItem } from 'src/app/models/track.model';
 
 export class GetPlaylists {
   static readonly type = '[Playlists] Get Playlists';
@@ -9,7 +9,7 @@ export class GetPlaylistTracks {
 }
 export class LazyLoadPlaylistTracks {
   static readonly type = '[Playlists] Lazy Load Playlist Tracks';
-  constructor(public playlistTracks: PlaylistTrack[]) {}
+  constructor(public playlistTracks: TrackItem[]) {}
 }
 export class ClearPlaylistTracks {
   static readonly type = '[Playlists] Clear Playlist Tracks';

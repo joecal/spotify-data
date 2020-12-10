@@ -1,6 +1,12 @@
-<div class="login-container">
-  <button mat-icon-button (click)="logIn()">
-    <mat-icon>login</mat-icon>
-    <span>Log In</span>
-  </button>
+<div class="login-container primary-background-color">
+  <mat-card class="example-card">
+    <mat-card-header>
+      <mat-card-subtitle>Spotify Data</mat-card-subtitle>
+    </mat-card-header>
+    <img mat-card-image src="assets/images/spotify-logo.png" />
+    <button mat-stroked-button (click)="logIn()">
+      <mat-icon color="accent">login</mat-icon>
+      <span class="accent-color">Log In</span>
+    </button>
+  </mat-card>
 </div>

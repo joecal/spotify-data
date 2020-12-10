@@ -5,3 +5,24 @@
   align-items: center;
   justify-content: center;
 }
+
+mat-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.mat-card-image {
+  width: 50px;
+}
+
+.login {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo {
+  width: 100px;
+}

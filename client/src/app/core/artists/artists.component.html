@@ -1,0 +1,33 @@
+<div class="artists-container">
+  <mat-progress-bar
+    *ngIf="loading"
+    color="accent"
+    mode="indeterminate"
+  ></mat-progress-bar>
+  <ng-container *ngIf="artists">
+    <mat-card
+      class="c-pointer"
+      *ngFor="let artist of artists"
+      (click)="goToArtist(artist)"
+    >
+      <mat-card-header>
+        <mat-card-title
+          #artistName
+          class="elipsis"
+          [matTooltip]="
+            isTextOverflowing(artistName) ? artist.name : null!
+          "
+          >{{ artist.name }}</mat-card-title
+        >
+        <mat-card-subtitle
+          >Followers: {{ artist.followers.total }}</mat-card-subtitle
+        >
+      </mat-card-header>
+      <img
+        *ngIf="artist.images[0]"
+        mat-card-image
+        [src]="artist.images[0].url"
+      />
+    </mat-card>
+  </ng-container>
+</div>

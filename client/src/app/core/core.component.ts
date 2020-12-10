@@ -60,10 +60,14 @@ export class CoreComponent implements OnInit, OnDestroy {
     switch (url) {
       case '/home':
         return 'Home';
+      case '/artists':
+        return 'Artists';
+      case '/albums':
+        return 'Albums';
       case '/playlists':
         return 'Playlists';
       default:
-        return 'test';
+        return '';
     }
   }
 

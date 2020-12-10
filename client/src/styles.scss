@@ -2,7 +2,7 @@
 * Generated theme by Material Theme Generator
 * https://materialtheme.arcsine.dev
 */
-
+@import './utils.scss';
 @import '~@angular/material/theming';
 // Include the common styles for Angular Material. We include this here so that you only
 // have to load a single css file for Angular Material in your app.
@@ -229,6 +229,30 @@ $altTheme: mat-light-theme(
   $theme-warn
 );
 
+.primary-background-color {
+  background-color: mat-color($theme-primary) !important;
+}
+
+.accent-background-color {
+  background-color: mat-color($theme-accent) !important;
+}
+
+.warn-background-color {
+  background-color: mat-color($theme-warn) !important;
+}
+
+.primary-color {
+  color: mat-color($theme-primary) !important;
+}
+
+.accent-color {
+  color: mat-color($theme-accent) !important;
+}
+
+.warn-color {
+  color: mat-color($theme-warn) !important;
+}
+
 // Theme Init
 @include angular-material-theme($theme);
 
@@ -261,6 +285,34 @@ $altTheme: mat-light-theme(
   }
 }
 
+html,
+body {
+  height: 100%;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+}
+
+// Material overrides
+
 mat-sidenav-container {
   height: 100% !important;
+}
+
+// PrimeNG overrides
+.p-carousel-next,
+.p-carousel-prev {
+  color: #1db954 !important;
+  background-color: #2c2c2c !important;
+}
+
+.p-carousel
+  .p-carousel-indicators
+  .p-carousel-indicator.p-highlight
+  button {
+  background-color: #1db954 !important;
+}
+
+ul.p-carousel-indicators.p-reset {
+  display: none !important;
 }
