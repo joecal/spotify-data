@@ -63,6 +63,7 @@ export class AuthState implements NgxsOnInit {
 
   @Action(LogOut)
   logOut(context: StateContext<AuthStateModel>): void {
+    console.log('logout');
     const state = context.getState();
     state.accessToken = null!;
     state.refreshToken = null!;
@@ -89,6 +90,7 @@ export class AuthState implements NgxsOnInit {
       .post('https://accounts.spotify.com/api/token', body, options)
       .toPromise()
       .then((response: AuthTokenResponse | any) => {
+        console.log('response: ', response);
         this.setAccessToken(context, response.access_token);
         this.setAccessTokenSetDate(context, new Date());
         this.setAccessTokenExpirationDate(
