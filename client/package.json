@@ -7,7 +7,8 @@
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "prod": "ng build --prod"
+    "prod": "ng build --base-href /spotify-data/ --prod",
+    "serve-prod": "ng serve --prod"
   },
   "private": true,
   "dependencies": {

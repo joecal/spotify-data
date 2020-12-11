@@ -6,7 +6,7 @@ export const environment = {
   production: false,
   clientId: '',
   clientSecret: '',
-  redirectUri: '',
+  redirectUri: 'http://localhost:4200/login',
   spotifyApiBaseUrl: 'https://api.spotify.com/v1',
 };
 

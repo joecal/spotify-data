@@ -5,7 +5,11 @@ import {
   OnInit,
 } from '@angular/core';
 import { MediaMatcher } from '@angular/cdk/layout';
-import { NavigationEnd, Router } from '@angular/router';
+import {
+  ActivatedRoute,
+  NavigationEnd,
+  Router,
+} from '@angular/router';
 import { Subscription } from 'rxjs';
 import { AuthService } from '../services/auth.service';
 
@@ -26,7 +30,12 @@ export class CoreComponent implements OnInit, OnDestroy {
     private media: MediaMatcher,
     private router: Router,
     private authService: AuthService,
+    private route: ActivatedRoute,
   ) {
+    console.log(
+      'core this.route.snapshot.queryParams: ',
+      this.route.snapshot.queryParams,
+    );
     this.subscription = new Subscription();
     this.toolBarTitle = this.setToolbarTitle(this.router.url);
     this.mobileQuery = media.matchMedia('(max-width: 600px)');
