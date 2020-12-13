@@ -9,6 +9,7 @@ import { Select, Store } from '@ngxs/store';
 import { Observable, Subscription } from 'rxjs';
 import { Album, AlbumItem } from 'src/app/models/album.model';
 import { Artist } from 'src/app/models/artist.model';
+import { LoadingService } from 'src/app/services/loading.service';
 import { GetUsersSavedAlbums } from 'src/app/store/actions/user.actions';
 import { UserState } from 'src/app/store/state/user.state';
 
@@ -19,7 +20,6 @@ import { UserState } from 'src/app/store/state/user.state';
 })
 export class AlbumsComponent implements OnInit, OnDestroy {
   @Select(UserState.savedAlbums) albumItems$: Observable<AlbumItem[]>;
-  loading: boolean;
   albumItems: AlbumItem[];
 
   private subscription: Subscription;
@@ -28,8 +28,9 @@ export class AlbumsComponent implements OnInit, OnDestroy {
     private changeDetectorRef: ChangeDetectorRef,
     private router: Router,
     private store: Store,
+    private loadingService: LoadingService,
   ) {
-    this.loading = true;
+    this.loadingService.loading = true;
     this.subscription = new Subscription();
   }
 
@@ -47,12 +48,18 @@ export class AlbumsComponent implements OnInit, OnDestroy {
       this.albumItems$.subscribe((albumItems: AlbumItem[]) => {
         this.albumItems = albumItems;
         this.changeDetectorRef.detectChanges();
-        if (this.loading && this.albumItems.length > 0) {
-          this.loading = false;
-        } else if (this.loading && this.albumItems.length === 0) {
+        if (
+          this.loadingService.loading &&
+          this.albumItems.length > 0
+        ) {
+          this.loadingService.loading = false;
+        } else if (
+          this.loadingService.loading &&
+          this.albumItems.length === 0
+        ) {
           setTimeout(() => {
-            if (this.loading) {
-              this.loading = false;
+            if (this.loadingService.loading) {
+              this.loadingService.loading = false;
             }
           }, 5000);
         }

@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subscription } from 'rxjs';
 import { Artist } from 'src/app/models/artist.model';
+import { LoadingService } from 'src/app/services/loading.service';
 import { GetUsersFollowedArtists } from 'src/app/store/actions/user.actions';
 import { UserState } from 'src/app/store/state/user.state';
 
@@ -18,7 +19,6 @@ import { UserState } from 'src/app/store/state/user.state';
 })
 export class ArtistsComponent implements OnInit, OnDestroy {
   @Select(UserState.followedArtists) artists$: Observable<Artist[]>;
-  loading: boolean;
   artists: Artist[];
 
   private subscription: Subscription;
@@ -27,8 +27,9 @@ export class ArtistsComponent implements OnInit, OnDestroy {
     private changeDetectorRef: ChangeDetectorRef,
     private router: Router,
     private store: Store,
+    private loadingService: LoadingService,
   ) {
-    this.loading = true;
+    this.loadingService.loading = true;
     this.subscription = new Subscription();
   }
 
@@ -46,12 +47,15 @@ export class ArtistsComponent implements OnInit, OnDestroy {
       this.artists$.subscribe((artists: Artist[]) => {
         this.artists = artists;
         this.changeDetectorRef.detectChanges();
-        if (this.loading && this.artists.length > 0) {
-          this.loading = false;
-        } else if (this.loading && this.artists.length === 0) {
+        if (this.loadingService.loading && this.artists.length > 0) {
+          this.loadingService.loading = false;
+        } else if (
+          this.loadingService.loading &&
+          this.artists.length === 0
+        ) {
           setTimeout(() => {
-            if (this.loading) {
-              this.loading = false;
+            if (this.loadingService.loading) {
+              this.loadingService.loading = false;
             }
           }, 5000);
         }

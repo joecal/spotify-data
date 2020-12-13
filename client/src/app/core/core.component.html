@@ -25,7 +25,11 @@
       </mat-menu>
     </div>
   </mat-toolbar>
-
+  <mat-progress-bar
+    *ngIf="loadingService.loading"
+    color="accent"
+    mode="indeterminate"
+  ></mat-progress-bar>
   <mat-sidenav-container
     class="sidenav-container"
     [style.marginTop.px]="mobileQuery.matches ? 56 : 0"
@@ -42,29 +46,29 @@
           mat-list-item
           routerLink="home"
           routerLinkActive="active-route"
-          >Home</a
+          ><mat-icon class="mr-10">home</mat-icon>Home</a
         >
         <a
           mat-list-item
           routerLink="artists"
           routerLinkActive="active-route"
-          >Artists</a
+          ><mat-icon class="mr-10">person</mat-icon>Artists</a
         >
         <a
           mat-list-item
           routerLink="albums"
           routerLinkActive="active-route"
-          >Albums</a
+          ><mat-icon class="mr-10">album</mat-icon>Albums</a
         >
         <a
           mat-list-item
           routerLink="playlists"
           routerLinkActive="active-route"
+          ><mat-icon class="mr-10">featured_play_list</mat-icon
           >Playlists</a
         >
       </mat-nav-list>
     </mat-sidenav>
-
     <mat-sidenav-content>
       <router-outlet></router-outlet>
     </mat-sidenav-content>

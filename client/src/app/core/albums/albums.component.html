@@ -1,9 +1,4 @@
 <div class="albums-container">
-  <mat-progress-bar
-    *ngIf="loading"
-    color="accent"
-    mode="indeterminate"
-  ></mat-progress-bar>
   <ng-container *ngIf="albumItems">
     <mat-card
       class="c-pointer"
@@ -22,7 +17,14 @@
           >{{ albumItem.album.name }}</mat-card-title
         >
         <mat-card-subtitle
-          >Artist:
+          #artists
+          class="elipsis"
+          [matTooltip]="
+            isTextOverflowing(artists)
+              ? getArtistNames(albumItem.album.artists)
+              : null!
+          "
+        >
           {{
             getArtistNames(albumItem.album.artists)
           }}</mat-card-subtitle
