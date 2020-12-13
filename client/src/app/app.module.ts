@@ -22,6 +22,7 @@ import { PlaylistsService } from './services/playlists.service';
 import { ApiService } from './services/api.service';
 import { UserService } from './services/user.service';
 import { UserState } from './store/state/user.state';
+import { LoadingService } from './services/loading.service';
 
 @NgModule({
   declarations: [AppComponent, PageNotFoundComponent, LoginComponent],
@@ -40,6 +41,7 @@ import { UserState } from './store/state/user.state';
     ApiService,
     PlaylistsService,
     UserService,
+    LoadingService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptorService,

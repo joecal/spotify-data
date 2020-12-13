@@ -21,6 +21,7 @@ import { MatSort } from '@angular/material/sort';
 import { HttpHeaders } from '@angular/common/http';
 import { UserService } from 'src/app/services/user.service';
 import { Artist } from 'src/app/models/artist.model';
+import { LoadingService } from 'src/app/services/loading.service';
 
 @Component({
   selector: 'spotify-data-playlist',
@@ -39,7 +40,6 @@ export class PlaylistComponent implements OnInit, OnDestroy {
   playlistTracks: TrackItem[];
   tableDataSource: TableVirtualScrollDataSource<TrackItem>;
   tableColumns: string[];
-  loading: boolean;
   sortedBy: string;
 
   private playlistId: string;
@@ -50,11 +50,12 @@ export class PlaylistComponent implements OnInit, OnDestroy {
     private playlistsService: PlaylistsService,
     private store: Store,
     private userService: UserService,
+    private loadingService: LoadingService,
   ) {
     this.tvsItemSize = 48;
     this.headerHeight = 56;
     this.bufferMultiplier = 1;
-    this.loading = true;
+    this.loadingService.loading = true;
     this.subscription = new Subscription();
     this.tableColumns = [
       'name',
@@ -111,7 +112,7 @@ export class PlaylistComponent implements OnInit, OnDestroy {
             this.playlist &&
             this.playlist.tracks.total === this.playlistTracks.length
           ) {
-            this.loading = false;
+            this.loadingService.loading = false;
           }
           this.tableDataSource = new TableVirtualScrollDataSource(
             this.playlistTracks,
@@ -160,7 +161,7 @@ export class PlaylistComponent implements OnInit, OnDestroy {
       );
 
       if (this.playlist && this.playlist.tracks.total <= 100) {
-        this.loading = false;
+        this.loadingService.loading = false;
       }
       this.store.dispatch(new GetPlaylistTracks(this.playlist.id));
       console.log('this.playlist: ', this.playlist);

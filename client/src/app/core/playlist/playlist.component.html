@@ -1,162 +1,162 @@
-<cdk-virtual-scroll-viewport
-  [tvsItemSize]="tvsItemSize"
-  [headerHeight]="headerHeight"
-  [bufferMultiplier]="bufferMultiplier"
-  class="wrapper mat-elevation-z2"
->
-  <mat-progress-bar
-    *ngIf="loading"
-    color="accent"
-    mode="indeterminate"
-  ></mat-progress-bar>
-  <table mat-table [dataSource]="tableDataSource" matSort>
-    <tr
-      mat-header-row
-      *matHeaderRowDef="tableColumns; sticky: true"
-    ></tr>
-    <tr mat-row *matRowDef="let row; columns: tableColumns"></tr>
+<div class="playlist-container">
+  <cdk-virtual-scroll-viewport
+    [tvsItemSize]="tvsItemSize"
+    [headerHeight]="headerHeight"
+    [bufferMultiplier]="bufferMultiplier"
+    class="wrapper mat-elevation-z2"
+  >
+    <table mat-table [dataSource]="tableDataSource" matSort>
+      <tr
+        mat-header-row
+        *matHeaderRowDef="tableColumns; sticky: true"
+      ></tr>
+      <tr mat-row *matRowDef="let row; columns: tableColumns"></tr>
 
-    <ng-container matColumnDef="name">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
-      <td mat-cell *matCellDef="let playlistTrack">
-        {{ playlistTrack.track.name }}
-      </td>
-    </ng-container>
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          Name
+        </th>
+        <td mat-cell *matCellDef="let playlistTrack">
+          {{ playlistTrack.track.name }}
+        </td>
+      </ng-container>
 
-    <ng-container matColumnDef="artist">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>
-        Artist
-      </th>
-      <td mat-cell *matCellDef="let playlistTrack">
-        {{ getArtistNames(playlistTrack.track.artists) }}
-      </td>
-    </ng-container>
+      <ng-container matColumnDef="artist">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          Artist
+        </th>
+        <td mat-cell *matCellDef="let playlistTrack">
+          {{ getArtistNames(playlistTrack.track.artists) }}
+        </td>
+      </ng-container>
 
-    <ng-container matColumnDef="albumm">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Album</th>
-      <td mat-cell *matCellDef="let playlistTrack">
-        {{ playlistTrack.track.album.name }}
-      </td>
-    </ng-container>
+      <ng-container matColumnDef="albumm">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          Album
+        </th>
+        <td mat-cell *matCellDef="let playlistTrack">
+          {{ playlistTrack.track.album.name }}
+        </td>
+      </ng-container>
 
-    <ng-container matColumnDef="acousticness">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>
-        Acousticness
-      </th>
-      <td mat-cell *matCellDef="let playlistTrack">
-        {{ playlistTrack.acousticness }}
-      </td>
-    </ng-container>
+      <ng-container matColumnDef="acousticness">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          Acousticness
+        </th>
+        <td mat-cell *matCellDef="let playlistTrack">
+          {{ playlistTrack.acousticness }}
+        </td>
+      </ng-container>
 
-    <ng-container matColumnDef="danceability">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>
-        Danceability
-      </th>
-      <td mat-cell *matCellDef="let playlistTrack">
-        {{ playlistTrack.danceability }}
-      </td>
-    </ng-container>
+      <ng-container matColumnDef="danceability">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          Danceability
+        </th>
+        <td mat-cell *matCellDef="let playlistTrack">
+          {{ playlistTrack.danceability }}
+        </td>
+      </ng-container>
 
-    <ng-container matColumnDef="duration_ms">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>
-        Duration
-      </th>
-      <td mat-cell *matCellDef="let playlistTrack">
-        {{ playlistTrack.duration_ms }}
-      </td>
-    </ng-container>
+      <ng-container matColumnDef="duration_ms">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          Duration
+        </th>
+        <td mat-cell *matCellDef="let playlistTrack">
+          {{ playlistTrack.duration_ms }}
+        </td>
+      </ng-container>
 
-    <ng-container matColumnDef="energy">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>
-        Energy
-      </th>
-      <td mat-cell *matCellDef="let playlistTrack">
-        {{ playlistTrack.energy }}
-      </td>
-    </ng-container>
+      <ng-container matColumnDef="energy">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          Energy
+        </th>
+        <td mat-cell *matCellDef="let playlistTrack">
+          {{ playlistTrack.energy }}
+        </td>
+      </ng-container>
 
-    <ng-container matColumnDef="instrumentalness">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>
-        Instrumentalness
-      </th>
-      <td mat-cell *matCellDef="let playlistTrack">
-        {{ playlistTrack.instrumentalness }}
-      </td>
-    </ng-container>
+      <ng-container matColumnDef="instrumentalness">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          Instrumentalness
+        </th>
+        <td mat-cell *matCellDef="let playlistTrack">
+          {{ playlistTrack.instrumentalness }}
+        </td>
+      </ng-container>
 
-    <ng-container matColumnDef="key">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Key</th>
-      <td mat-cell *matCellDef="let playlistTrack">
-        {{ playlistTrack.key }}
-      </td>
-    </ng-container>
+      <ng-container matColumnDef="key">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Key</th>
+        <td mat-cell *matCellDef="let playlistTrack">
+          {{ playlistTrack.key }}
+        </td>
+      </ng-container>
 
-    <ng-container matColumnDef="liveness">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>
-        Liveness
-      </th>
-      <td mat-cell *matCellDef="let playlistTrack">
-        {{ playlistTrack.liveness }}
-      </td>
-    </ng-container>
+      <ng-container matColumnDef="liveness">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          Liveness
+        </th>
+        <td mat-cell *matCellDef="let playlistTrack">
+          {{ playlistTrack.liveness }}
+        </td>
+      </ng-container>
 
-    <ng-container matColumnDef="loudness">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>
-        loudness
-      </th>
-      <td mat-cell *matCellDef="let playlistTrack">
-        {{ playlistTrack.loudness }}
-      </td>
-    </ng-container>
+      <ng-container matColumnDef="loudness">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          loudness
+        </th>
+        <td mat-cell *matCellDef="let playlistTrack">
+          {{ playlistTrack.loudness }}
+        </td>
+      </ng-container>
 
-    <ng-container matColumnDef="mode">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>mode</th>
-      <td mat-cell *matCellDef="let playlistTrack">
-        {{ playlistTrack.mode }}
-      </td>
-    </ng-container>
+      <ng-container matColumnDef="mode">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          mode
+        </th>
+        <td mat-cell *matCellDef="let playlistTrack">
+          {{ playlistTrack.mode }}
+        </td>
+      </ng-container>
 
-    <ng-container matColumnDef="speechiness">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>
-        Speechiness
-      </th>
-      <td mat-cell *matCellDef="let playlistTrack">
-        {{ playlistTrack.speechiness }}
-      </td>
-    </ng-container>
+      <ng-container matColumnDef="speechiness">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          Speechiness
+        </th>
+        <td mat-cell *matCellDef="let playlistTrack">
+          {{ playlistTrack.speechiness }}
+        </td>
+      </ng-container>
 
-    <ng-container matColumnDef="tempo">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Tempo</th>
-      <td mat-cell *matCellDef="let playlistTrack">
-        {{ playlistTrack.tempo }}
-      </td>
-    </ng-container>
+      <ng-container matColumnDef="tempo">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          Tempo
+        </th>
+        <td mat-cell *matCellDef="let playlistTrack">
+          {{ playlistTrack.tempo }}
+        </td>
+      </ng-container>
 
-    <ng-container matColumnDef="valence">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>
-        Valence
-      </th>
-      <td mat-cell *matCellDef="let playlistTrack">
-        {{ playlistTrack.valence }}
-        <button
-          mat-icon-button
-          [disabled]="!sortedBy"
-          (click)="createPlaylist()"
-        >
-          <mat-icon>menu</mat-icon>
-        </button>
-      </td>
-    </ng-container>
-    <!-- <ng-container matColumnDef="audioFeatureAverage">
+      <ng-container matColumnDef="valence">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          Valence
+        </th>
+        <td mat-cell *matCellDef="let playlistTrack">
+          {{ playlistTrack.valence }}
+          <button
+            mat-icon-button
+            [disabled]="!sortedBy"
+            (click)="createPlaylist()"
+          >
+            <mat-icon>menu</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+      <!-- <ng-container matColumnDef="audioFeatureAverage">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>AA</th>
       <td mat-cell *matCellDef="let playlistTrack">
         {{ playlistTrack.audioFeatureAverage }}
       </td>
     </ng-container> -->
-  </table>
-  <mat-spinner
-    *ngIf="loading"
-    class="spinner"
-    color="accent"
-  ></mat-spinner>
-</cdk-virtual-scroll-viewport>
+    </table>
+  </cdk-virtual-scroll-viewport>
+</div>

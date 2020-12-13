@@ -12,6 +12,7 @@ import {
 } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { AuthService } from '../services/auth.service';
+import { LoadingService } from '../services/loading.service';
 
 @Component({
   selector: 'spotify-data-core',
@@ -31,11 +32,8 @@ export class CoreComponent implements OnInit, OnDestroy {
     private router: Router,
     private authService: AuthService,
     private route: ActivatedRoute,
+    public loadingService: LoadingService,
   ) {
-    console.log(
-      'core this.route.snapshot.queryParams: ',
-      this.route.snapshot.queryParams,
-    );
     this.subscription = new Subscription();
     this.toolBarTitle = this.setToolbarTitle(this.router.url);
     this.mobileQuery = media.matchMedia('(max-width: 600px)');

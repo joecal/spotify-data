@@ -4,10 +4,12 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
+import { Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subscription } from 'rxjs';
 import { Album } from 'src/app/models/album.model';
 import { Artist } from 'src/app/models/artist.model';
+import { LoadingService } from 'src/app/services/loading.service';
 import {
   GetUsersFollowedArtists,
   GetUsersSavedAlbums,
@@ -33,15 +35,16 @@ export class HomeComponent implements OnInit, OnDestroy {
   followedArtists: Artist[];
   savedAlbums: Album[];
   responsiveOptions: ResponsiveOption[];
-  loading: boolean;
 
   private subscription: Subscription;
 
   constructor(
     private changeDetectorRef: ChangeDetectorRef,
     private store: Store,
+    private router: Router,
+    private loadingService: LoadingService,
   ) {
-    this.loading = true;
+    this.loadingService.loading = true;
     this.subscription = new Subscription();
     this.followedArtists = [];
     this.savedAlbums = [];
@@ -88,12 +91,18 @@ export class HomeComponent implements OnInit, OnDestroy {
         this.changeDetectorRef.detectChanges();
 
         console.log('this.savedAlbums: ', this.savedAlbums);
-        if (this.loading && this.savedAlbums.length > 0) {
-          this.loading = false;
-        } else if (this.loading && this.savedAlbums.length === 0) {
+        if (
+          this.loadingService.loading &&
+          this.savedAlbums.length > 0
+        ) {
+          this.loadingService.loading = false;
+        } else if (
+          this.loadingService.loading &&
+          this.savedAlbums.length === 0
+        ) {
           setTimeout(() => {
-            if (this.loading) {
-              this.loading = false;
+            if (this.loadingService.loading) {
+              this.loadingService.loading = false;
             }
           }, 5000);
         }
@@ -112,5 +121,18 @@ export class HomeComponent implements OnInit, OnDestroy {
     } else {
       return false;
     }
+  }
+
+  goToArtist(artist: Artist) {
+    // this.router.navigateByUrl(`/artist/${artist.id}`);
+  }
+
+  getArtistNames(artists: Artist[]) {
+    let name: string = '';
+    artists.forEach((artist: Artist) => {
+      name = name + artist.name + ', ';
+    });
+    name = name.substring(0, name.length - 2);
+    return name;
   }
 }
