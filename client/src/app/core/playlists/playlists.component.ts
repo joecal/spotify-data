@@ -30,7 +30,7 @@ export class PlaylistsComponent implements OnInit, OnDestroy {
     private changeDetectorRef: ChangeDetectorRef,
     private router: Router,
     private store: Store,
-    private loadingService: LoadingService,
+    public loadingService: LoadingService,
   ) {
     this.loadingService.loading = true;
     this.subscription = new Subscription();
@@ -50,22 +50,8 @@ export class PlaylistsComponent implements OnInit, OnDestroy {
       this.playlists$.subscribe((playlists: Playlist[]) => {
         this.playlists = playlists;
         this.changeDetectorRef.detectChanges();
-        if (
-          this.loadingService.loading &&
-          this.playlists.length > 0
-        ) {
-          this.loadingService.loading = false;
-        } else if (
-          this.loadingService.loading &&
-          this.playlists.length === 0
-        ) {
-          setTimeout(() => {
-            if (this.loadingService.loading) {
-              this.loadingService.loading = false;
-            }
-          }, 5000);
-        }
         console.log('this.playlists: ', this.playlists);
+        this.loadingService.loading = false;
       }),
     );
   }

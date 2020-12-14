@@ -1,11 +1,11 @@
 import { AlbumItem } from './album.model';
 import { Artist } from './artist.model';
 import { Playlist } from './playlist.model';
-import { Track } from './track.model';
+import { TrackItem } from './track.model';
 
 export interface SpotifyGetApiResponse {
   href: string;
-  items: Playlist[] | Artist[] | Track[] | AlbumItem[];
+  items: Playlist[] | Artist[] | TrackItem[] | AlbumItem[];
   limit: number;
   next: string;
   offset: number;

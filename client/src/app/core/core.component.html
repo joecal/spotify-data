@@ -1,5 +1,8 @@
 <div class="main-container" [class.is-mobile]="mobileQuery.matches">
-  <mat-toolbar color="primary" class="toolbar">
+  <mat-toolbar
+    color="primary"
+    class="toolbar primary-lighter-border-inset"
+  >
     <div class="toolbar-toggle-name">
       <button mat-icon-button (click)="snav.toggle()">
         <mat-icon>menu</mat-icon>
@@ -26,7 +29,7 @@
     </div>
   </mat-toolbar>
   <mat-progress-bar
-    *ngIf="loadingService.loading"
+    *ngIf="loadingService.loading | loadingPipe"
     color="accent"
     mode="indeterminate"
   ></mat-progress-bar>

@@ -1,8 +1,15 @@
 <div class="home-container">
   <mat-card class="carousel-container">
     <mat-card-header class="carousel-header">
-      <mat-icon mat-card-avatar>person</mat-icon>
-      <mat-card-title>Artists</mat-card-title>
+      <mat-icon
+        mat-card-avatar
+        class="c-pointer"
+        routerLink="/artists"
+        >person</mat-icon
+      >
+      <mat-card-title class="c-pointer" routerLink="/artists"
+        >Artists</mat-card-title
+      >
     </mat-card-header>
     <mat-card-content>
       <p-carousel
@@ -42,8 +49,12 @@
   </mat-card>
   <mat-card class="carousel-container">
     <mat-card-header class="carousel-header">
-      <mat-icon mat-card-avatar>album</mat-icon>
-      <mat-card-title>Albums</mat-card-title>
+      <mat-icon mat-card-avatar class="c-pointer" routerLink="/albums"
+        >album</mat-icon
+      >
+      <mat-card-title class="c-pointer" routerLink="/albums"
+        >Albums</mat-card-title
+      >
     </mat-card-header>
     <mat-card-content>
       <p-carousel

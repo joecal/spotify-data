@@ -50,7 +50,7 @@ export class PlaylistComponent implements OnInit, OnDestroy {
     private playlistsService: PlaylistsService,
     private store: Store,
     private userService: UserService,
-    private loadingService: LoadingService,
+    public loadingService: LoadingService,
   ) {
     this.tvsItemSize = 48;
     this.headerHeight = 56;
@@ -61,9 +61,7 @@ export class PlaylistComponent implements OnInit, OnDestroy {
       'name',
       'artist',
       'albumm',
-
       'acousticness',
-      // 'analysis_url',
       'danceability',
       'duration_ms',
       'energy',
@@ -74,12 +72,7 @@ export class PlaylistComponent implements OnInit, OnDestroy {
       'mode',
       'speechiness',
       'tempo',
-      // 'time_signature',
-      // 'track_href',
-      // 'type',
-      // 'uri',
       'valence',
-      // 'audioFeatureAverage',
     ];
     this.tableDataSource = new TableVirtualScrollDataSource();
   }

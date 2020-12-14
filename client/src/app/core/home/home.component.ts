@@ -42,7 +42,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     private changeDetectorRef: ChangeDetectorRef,
     private store: Store,
     private router: Router,
-    private loadingService: LoadingService,
+    public loadingService: LoadingService,
   ) {
     this.loadingService.loading = true;
     this.subscription = new Subscription();
@@ -81,7 +81,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       this.followedArtists$.subscribe((followedArtists: Artist[]) => {
         this.followedArtists = followedArtists;
         this.changeDetectorRef.detectChanges();
-
+        this.loadingService.loading = false;
         console.log('this.followedArtists: ', this.followedArtists);
       }),
     );
@@ -89,23 +89,8 @@ export class HomeComponent implements OnInit, OnDestroy {
       this.savedAlbums$.subscribe((savedAlbums: Album[]) => {
         this.savedAlbums = savedAlbums;
         this.changeDetectorRef.detectChanges();
-
         console.log('this.savedAlbums: ', this.savedAlbums);
-        if (
-          this.loadingService.loading &&
-          this.savedAlbums.length > 0
-        ) {
-          this.loadingService.loading = false;
-        } else if (
-          this.loadingService.loading &&
-          this.savedAlbums.length === 0
-        ) {
-          setTimeout(() => {
-            if (this.loadingService.loading) {
-              this.loadingService.loading = false;
-            }
-          }, 5000);
-        }
+        this.loadingService.loading = false;
       }),
     );
   }

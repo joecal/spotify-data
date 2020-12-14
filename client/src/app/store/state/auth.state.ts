@@ -90,7 +90,6 @@ export class AuthState implements NgxsOnInit {
       .post('https://accounts.spotify.com/api/token', body, options)
       .toPromise()
       .then((response: AuthTokenResponse | any) => {
-        console.log('response: ', response);
         this.setAccessToken(context, response.access_token);
         this.setAccessTokenSetDate(context, new Date());
         this.setAccessTokenExpirationDate(
@@ -143,6 +142,7 @@ export class AuthState implements NgxsOnInit {
     state.accessToken = accessToken;
     context.patchState(state);
     localStorage.setItem('access_token', state.accessToken);
+    console.log('Token SET');
   }
 
   private setAccessTokenSetDate(

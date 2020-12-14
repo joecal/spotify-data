@@ -1,4 +1,5 @@
 import {
+  ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   OnDestroy,
@@ -13,15 +14,18 @@ import {
 import { Subscription } from 'rxjs';
 import { AuthService } from '../services/auth.service';
 import { LoadingService } from '../services/loading.service';
+import { LoadingPipePipe } from './pipes/loading-pipe.pipe';
 
 @Component({
   selector: 'spotify-data-core',
   templateUrl: './core.component.html',
   styleUrls: ['./core.component.scss'],
+  providers: [LoadingPipePipe],
 })
 export class CoreComponent implements OnInit, OnDestroy {
   toolBarTitle: string;
   mobileQuery: MediaQueryList;
+  loading: boolean;
 
   private subscription: Subscription;
   private mobileQueryListener: () => void;
