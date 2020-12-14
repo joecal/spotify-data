@@ -8,6 +8,7 @@ import { PlaylistComponent } from './playlist/playlist.component';
 import { PlaylistsService } from '../services/playlists.service';
 import { ArtistsComponent } from './artists/artists.component';
 import { AlbumsComponent } from './albums/albums.component';
+import { LoadingPipePipe } from './pipes/loading-pipe.pipe';
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import { AlbumsComponent } from './albums/albums.component';
     PlaylistComponent,
     ArtistsComponent,
     AlbumsComponent,
+    LoadingPipePipe,
   ],
   imports: [SharedModule, CoreRoutingModule],
   providers: [PlaylistsService],

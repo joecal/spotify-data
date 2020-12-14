@@ -1,17 +1,46 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Store } from '@ngxs/store';
+import { EMPTY, Observable, of, throwError } from 'rxjs';
+import {
+  catchError,
+  delay,
+  mergeMap,
+  retryWhen,
+  shareReplay,
+} from 'rxjs/operators';
+import { environment } from 'src/environments/environment';
+import { AuthService } from './auth.service';
 
 @Injectable()
 export class ApiService {
-  constructor(private http: HttpClient) {}
+  refreshingToken: boolean;
+  maxRequestRetries: number;
+
+  constructor(
+    private http: HttpClient,
+    private authService: AuthService,
+    private store: Store,
+  ) {
+    this.refreshingToken = false;
+    this.maxRequestRetries = 5;
+  }
 
   async get(url: string): Promise<any> {
     return new Promise(async (resolve, reject) => {
       try {
         const response = await this.http
           .get(url)
+          .pipe(
+            this.delayedRetry(1000, 0, url),
+            catchError((caughtError) => {
+              console.error(caughtError);
+              reject(caughtError);
+              return EMPTY;
+            }),
+          )
           .toPromise()
-          .then((response: any) => response);
+          .then((response) => response);
         resolve(response);
       } catch (caughtError) {
         console.error(caughtError);
@@ -19,6 +48,43 @@ export class ApiService {
       }
     });
   }
+
+  delayedRetry = (
+    delayMs: number,
+    maxRetry = this.maxRequestRetries,
+    url: string,
+  ) => {
+    let retries = maxRetry;
+    return (src: Observable<any>) =>
+      src.pipe(
+        retryWhen((errors: Observable<any>) =>
+          errors.pipe(
+            delay(delayMs),
+            mergeMap(async (error) => {
+              if (
+                error.status === 401 &&
+                url.includes(environment.spotifyApiBaseUrl) &&
+                !this.refreshingToken
+              ) {
+                const accessToken = this.authService.getAccessToken();
+                if (accessToken) {
+                  this.refreshingToken = true;
+                  await this.authService.refreshAccessToken();
+                  this.refreshingToken = false;
+                } else {
+                  this.authService.logOut();
+                }
+              }
+              return retries > 0
+                ? of(error)
+                : throwError(
+                    `Tried to load resource over XHR for ${maxRetry} times without success. Giving Up!`,
+                  );
+            }),
+          ),
+        ),
+      );
+  };
 
   async getNext(url: string): Promise<any> {
     return new Promise(async (resolve, reject) => {

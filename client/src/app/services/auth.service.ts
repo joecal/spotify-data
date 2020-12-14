@@ -10,11 +10,7 @@ import {
 
 @Injectable()
 export class AuthService {
-  private refreshingToken: boolean;
-
-  constructor(private store: Store) {
-    this.refreshingToken = false;
-  }
+  constructor(private store: Store) {}
 
   logIn(): void {
     this.store.dispatch(new LogIn());
@@ -42,17 +38,10 @@ export class AuthService {
     return refreshToken;
   }
 
-  async refreshAccessToken(): Promise<string | any> {
-    if (!this.refreshingToken) {
-      this.refreshingToken = true;
-      return this.store
-        .dispatch(new RefreshAccessToken(this.getRefreshToken()))
-        .toPromise()
-        .then((appState: AppState) => {
-          this.refreshingToken = false;
-          return appState.auth.accessToken;
-        });
-    }
+  async refreshAccessToken(): Promise<any> {
+    return this.store
+      .dispatch(new RefreshAccessToken(this.getRefreshToken()))
+      .toPromise();
   }
 
   isTokenExpired(): boolean {
