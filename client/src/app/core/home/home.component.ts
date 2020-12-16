@@ -1,9 +1,4 @@
-import {
-  ChangeDetectorRef,
-  Component,
-  OnDestroy,
-  OnInit,
-} from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subscription } from 'rxjs';
@@ -15,6 +10,7 @@ import {
   GetUsersSavedAlbums,
 } from 'src/app/store/actions/user.actions';
 import { UserState } from 'src/app/store/state/user.state';
+import { List } from 'immutable';
 
 interface ResponsiveOption {
   breakpoint: string;
@@ -39,15 +35,14 @@ export class HomeComponent implements OnInit, OnDestroy {
   private subscription: Subscription;
 
   constructor(
-    private changeDetectorRef: ChangeDetectorRef,
     private store: Store,
     private router: Router,
-    public loadingService: LoadingService,
+    private loadingService: LoadingService,
   ) {
-    this.loadingService.loading = true;
+    this.loadingService.startLoading();
     this.subscription = new Subscription();
-    this.followedArtists = [];
-    this.savedAlbums = [];
+    this.followedArtists = List([]).toArray();
+    this.savedAlbums = List([]).toArray();
     this.responsiveOptions = [
       {
         breakpoint: '1024px',
@@ -79,18 +74,24 @@ export class HomeComponent implements OnInit, OnDestroy {
   private setSubscription() {
     this.subscription.add(
       this.followedArtists$.subscribe((followedArtists: Artist[]) => {
-        this.followedArtists = followedArtists;
-        this.changeDetectorRef.detectChanges();
-        this.loadingService.loading = false;
-        console.log('this.followedArtists: ', this.followedArtists);
+        if (followedArtists.length) {
+          this.followedArtists = List(followedArtists).toArray();
+          this.loadingService.stopLoading();
+          console.log('this.followedArtists: ', this.followedArtists);
+        } else {
+          this.loadingService.stopLoadingTimeout(5000);
+        }
       }),
     );
     this.subscription.add(
       this.savedAlbums$.subscribe((savedAlbums: Album[]) => {
-        this.savedAlbums = savedAlbums;
-        this.changeDetectorRef.detectChanges();
-        console.log('this.savedAlbums: ', this.savedAlbums);
-        this.loadingService.loading = false;
+        if (savedAlbums.length) {
+          this.savedAlbums = List(savedAlbums).toArray();
+          this.loadingService.stopLoading();
+          console.log('this.savedAlbums: ', this.savedAlbums);
+        } else {
+          this.loadingService.stopLoadingTimeout(5000);
+        }
       }),
     );
   }
@@ -98,14 +99,6 @@ export class HomeComponent implements OnInit, OnDestroy {
   private loadData() {
     this.store.dispatch(new GetUsersFollowedArtists());
     this.store.dispatch(new GetUsersSavedAlbums());
-  }
-
-  isTextOverflowing(element: HTMLElement): boolean {
-    if (element.scrollWidth > element.clientWidth) {
-      return true;
-    } else {
-      return false;
-    }
   }
 
   goToArtist(artist: Artist) {

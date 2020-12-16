@@ -1,11 +1,7 @@
-import {
-  ChangeDetectorRef,
-  Component,
-  OnDestroy,
-  OnInit,
-} from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
+import { List } from 'immutable';
 import { Observable, Subscription } from 'rxjs';
 import { Artist } from 'src/app/models/artist.model';
 import { LoadingService } from 'src/app/services/loading.service';
@@ -19,18 +15,18 @@ import { UserState } from 'src/app/store/state/user.state';
 })
 export class ArtistsComponent implements OnInit, OnDestroy {
   @Select(UserState.followedArtists) artists$: Observable<Artist[]>;
-  artists: Artist[];
+  artists: List<Artist>;
 
   private subscription: Subscription;
 
   constructor(
-    private changeDetectorRef: ChangeDetectorRef,
     private router: Router,
     private store: Store,
     public loadingService: LoadingService,
   ) {
-    this.loadingService.loading = true;
+    this.loadingService.startLoading();
     this.subscription = new Subscription();
+    this.artists = List([]);
   }
 
   ngOnInit() {
@@ -45,24 +41,19 @@ export class ArtistsComponent implements OnInit, OnDestroy {
   private setSubscription() {
     this.subscription.add(
       this.artists$.subscribe((artists: Artist[]) => {
-        this.artists = artists;
-        this.changeDetectorRef.detectChanges();
-        console.log('this.artists: ', this.artists);
-        this.loadingService.loading = false;
+        if (artists.length) {
+          this.artists = List(artists);
+          this.loadingService.stopLoading();
+          console.log('this.artists: ', this.artists);
+        } else {
+          this.loadingService.stopLoadingTimeout(5000);
+        }
       }),
     );
   }
 
   private loadData() {
     this.store.dispatch(new GetUsersFollowedArtists());
-  }
-
-  isTextOverflowing(element: HTMLElement): boolean {
-    if (element.scrollWidth > element.clientWidth) {
-      return true;
-    } else {
-      return false;
-    }
   }
 
   goToArtist(artist: Artist) {

@@ -51,39 +51,39 @@ export class PlaylistsService {
   async getPlaylistTracks(playlistId: string): Promise<TrackItem[]> {
     return new Promise(async (resolve, reject) => {
       try {
-        // let playlistTracks: TrackItem[];
-        const playlistTracks: TrackItem[] = await this.apiService.get(
-          './assets/liked-songs.json',
+        let playlistTracks: TrackItem[];
+        // const playlistTracks: TrackItem[] = await this.apiService.get(
+        //   './assets/liked-songs.json',
+        // );
+        const response: SpotifyGetApiResponse = await this.apiService.get(
+          `https://api.spotify.com/v1/playlists/${playlistId}/tracks`,
         );
-        // const response: SpotifyGetApiResponse = await this.apiService.get(
-        //   `https://api.spotify.com/v1/playlists/${playlistId}/tracks`,
-        // );
-        // playlistTracks = response.items as TrackItem[];
-        // let audioFeatures = await this.getPlaylistTracksAudioFeatures(
-        //   playlistTracks,
-        //   [],
-        // );
-        // playlistTracks = this.setAudioFeatures(
-        //   playlistTracks,
-        //   audioFeatures,
-        // );
+        playlistTracks = response.items as TrackItem[];
+        let audioFeatures = await this.getPlaylistTracksAudioFeatures(
+          playlistTracks,
+          [],
+        );
+        playlistTracks = this.setAudioFeatures(
+          playlistTracks,
+          audioFeatures,
+        );
         resolve(playlistTracks);
-        // if (response.next) {
-        //   let tracksToAdd = await this.apiService.getNext(
-        //     response.next,
-        //   );
-        //   audioFeatures = await this.getPlaylistTracksAudioFeatures(
-        //     tracksToAdd,
-        //     [],
-        //   );
-        //   tracksToAdd = this.setAudioFeatures(
-        //     tracksToAdd,
-        //     audioFeatures,
-        //   );
-        //   this.store.dispatch(
-        //     new LazyLoadPlaylistTracks(tracksToAdd),
-        //   );
-        // }
+        if (response.next) {
+          let tracksToAdd = await this.apiService.getNext(
+            response.next,
+          );
+          audioFeatures = await this.getPlaylistTracksAudioFeatures(
+            tracksToAdd,
+            [],
+          );
+          tracksToAdd = this.setAudioFeatures(
+            tracksToAdd,
+            audioFeatures,
+          );
+          this.store.dispatch(
+            new LazyLoadPlaylistTracks(tracksToAdd),
+          );
+        }
       } catch (error) {
         reject(error);
       }
@@ -96,7 +96,14 @@ export class PlaylistsService {
   ): TrackItem[] {
     playlistTracks.forEach((playlistTrack: TrackItem) => {
       audioFeatures.forEach((audioFeature: AudioFeature) => {
-        if (playlistTrack.track.id === audioFeature.id) {
+        if (
+          playlistTrack &&
+          audioFeature &&
+          playlistTrack.track &&
+          playlistTrack.track.id &&
+          audioFeature.id &&
+          playlistTrack.track.id === audioFeature.id
+        ) {
           playlistTrack.acousticness = audioFeature.acousticness;
           playlistTrack.analysis_url = audioFeature.analysis_url;
           playlistTrack.danceability = audioFeature.danceability;

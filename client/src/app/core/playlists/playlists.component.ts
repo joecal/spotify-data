@@ -1,9 +1,4 @@
-import {
-  ChangeDetectorRef,
-  Component,
-  OnDestroy,
-  OnInit,
-} from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subscription } from 'rxjs';
@@ -11,6 +6,7 @@ import { Playlist } from 'src/app/models/playlist.model';
 import { LoadingService } from 'src/app/services/loading.service';
 import { GetPlaylists } from 'src/app/store/actions/playlists.actions';
 import { PlaylistsState } from 'src/app/store/state/playlists.state';
+import { List } from 'immutable';
 
 @Component({
   selector: 'spotify-data-playlists',
@@ -22,18 +18,18 @@ export class PlaylistsComponent implements OnInit, OnDestroy {
     Playlist[]
   >;
   loading: boolean;
-  playlists: Playlist[];
+  playlists: List<Playlist>;
 
   private subscription: Subscription;
 
   constructor(
-    private changeDetectorRef: ChangeDetectorRef,
     private router: Router,
     private store: Store,
     public loadingService: LoadingService,
   ) {
-    this.loadingService.loading = true;
+    this.loadingService.startLoading();
     this.subscription = new Subscription();
+    this.playlists = List([]);
   }
 
   ngOnInit() {
@@ -48,24 +44,19 @@ export class PlaylistsComponent implements OnInit, OnDestroy {
   private setSubscription() {
     this.subscription.add(
       this.playlists$.subscribe((playlists: Playlist[]) => {
-        this.playlists = playlists;
-        this.changeDetectorRef.detectChanges();
-        console.log('this.playlists: ', this.playlists);
-        this.loadingService.loading = false;
+        if (playlists.length) {
+          this.playlists = List(playlists);
+          this.loadingService.stopLoading();
+          console.log('this.playlists: ', this.playlists);
+        } else {
+          this.loadingService.stopLoadingTimeout(5000);
+        }
       }),
     );
   }
 
   private loadData() {
     this.store.dispatch(new GetPlaylists());
-  }
-
-  isTextOverflowing(element: HTMLElement): boolean {
-    if (element.scrollWidth > element.clientWidth) {
-      return true;
-    } else {
-      return false;
-    }
   }
 
   goToPlaylist(playlist: Playlist) {
