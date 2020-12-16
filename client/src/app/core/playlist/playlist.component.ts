@@ -22,6 +22,7 @@ import { HttpHeaders } from '@angular/common/http';
 import { UserService } from 'src/app/services/user.service';
 import { Artist } from 'src/app/models/artist.model';
 import { LoadingService } from 'src/app/services/loading.service';
+import { List } from 'immutable';
 
 @Component({
   selector: 'spotify-data-playlist',
@@ -55,7 +56,7 @@ export class PlaylistComponent implements OnInit, OnDestroy {
     this.tvsItemSize = 48;
     this.headerHeight = 56;
     this.bufferMultiplier = 1;
-    this.loadingService.loading = true;
+    this.loadingService.startLoading();
     this.subscription = new Subscription();
     this.tableColumns = [
       'name',
@@ -74,7 +75,10 @@ export class PlaylistComponent implements OnInit, OnDestroy {
       'tempo',
       'valence',
     ];
-    this.tableDataSource = new TableVirtualScrollDataSource();
+    this.playlistTracks = List([]).toArray();
+    this.tableDataSource = new TableVirtualScrollDataSource(
+      this.playlistTracks,
+    );
   }
 
   ngOnInit() {
@@ -96,20 +100,19 @@ export class PlaylistComponent implements OnInit, OnDestroy {
     this.subscription.add(
       this.playlistTracks$.subscribe(
         (playlistTracks: TrackItem[]) => {
-          this.playlistTracks = playlistTracks;
-          // console.log(
-          //   'this.playlistTracks: ',
-          //   JSON.stringify(this.playlistTracks),
-          // );
-          if (
-            this.playlist &&
-            this.playlist.tracks.total === this.playlistTracks.length
-          ) {
-            this.loadingService.loading = false;
+          if (playlistTracks.length) {
+            this.playlistTracks = List(playlistTracks).toArray();
+            console.log('this.playlistTracks: ', this.playlistTracks);
           }
           this.tableDataSource = new TableVirtualScrollDataSource(
             this.playlistTracks,
           );
+          if (
+            this.playlist &&
+            this.playlist.tracks.total === this.playlistTracks.length
+          ) {
+            this.loadingService.stopLoading();
+          }
           this.tableDataSource.sort = this.sort;
           if (
             this.sort &&
@@ -152,10 +155,6 @@ export class PlaylistComponent implements OnInit, OnDestroy {
       this.playlist = await this.playlistsService.getPlaylist(
         this.playlistId,
       );
-
-      if (this.playlist && this.playlist.tracks.total <= 100) {
-        this.loadingService.loading = false;
-      }
       this.store.dispatch(new GetPlaylistTracks(this.playlist.id));
       console.log('this.playlist: ', this.playlist);
     } catch (error) {

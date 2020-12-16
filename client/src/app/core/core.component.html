@@ -28,11 +28,7 @@
       </mat-menu>
     </div>
   </mat-toolbar>
-  <mat-progress-bar
-    *ngIf="loadingService.loading | loadingPipe"
-    color="accent"
-    mode="indeterminate"
-  ></mat-progress-bar>
+  <spotify-data-loading></spotify-data-loading>
   <mat-sidenav-container
     class="sidenav-container"
     [style.marginTop.px]="mobileQuery.matches ? 56 : 0"

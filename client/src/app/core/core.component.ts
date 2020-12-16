@@ -1,5 +1,4 @@
 import {
-  ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   OnDestroy,
@@ -13,14 +12,11 @@ import {
 } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { AuthService } from '../services/auth.service';
-import { LoadingService } from '../services/loading.service';
-import { LoadingPipePipe } from './pipes/loading-pipe.pipe';
 
 @Component({
   selector: 'spotify-data-core',
   templateUrl: './core.component.html',
   styleUrls: ['./core.component.scss'],
-  providers: [LoadingPipePipe],
 })
 export class CoreComponent implements OnInit, OnDestroy {
   toolBarTitle: string;
@@ -36,13 +32,12 @@ export class CoreComponent implements OnInit, OnDestroy {
     private router: Router,
     private authService: AuthService,
     private route: ActivatedRoute,
-    public loadingService: LoadingService,
   ) {
     this.subscription = new Subscription();
     this.toolBarTitle = this.setToolbarTitle(this.router.url);
     this.mobileQuery = media.matchMedia('(max-width: 600px)');
     this.mobileQueryListener = () =>
-      changeDetectorRef.detectChanges();
+      this.changeDetectorRef.detectChanges();
     this.mobileQuery.addEventListener(
       'change',
       this.mobileQueryListener,

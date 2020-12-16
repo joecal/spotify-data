@@ -1,17 +1,13 @@
-import {
-  ChangeDetectorRef,
-  Component,
-  OnDestroy,
-  OnInit,
-} from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subscription } from 'rxjs';
-import { Album, AlbumItem } from 'src/app/models/album.model';
+import { AlbumItem } from 'src/app/models/album.model';
 import { Artist } from 'src/app/models/artist.model';
 import { LoadingService } from 'src/app/services/loading.service';
 import { GetUsersSavedAlbums } from 'src/app/store/actions/user.actions';
 import { UserState } from 'src/app/store/state/user.state';
+import { List } from 'immutable';
 
 @Component({
   selector: 'spotify-data-albums',
@@ -20,18 +16,18 @@ import { UserState } from 'src/app/store/state/user.state';
 })
 export class AlbumsComponent implements OnInit, OnDestroy {
   @Select(UserState.savedAlbums) albumItems$: Observable<AlbumItem[]>;
-  albumItems: AlbumItem[];
+  albumItems: List<AlbumItem>;
 
   private subscription: Subscription;
 
   constructor(
-    private changeDetectorRef: ChangeDetectorRef,
     private router: Router,
     private store: Store,
     public loadingService: LoadingService,
   ) {
-    this.loadingService.loading = true;
+    this.loadingService.startLoading();
     this.subscription = new Subscription();
+    this.albumItems = List([]);
   }
 
   ngOnInit() {
@@ -46,24 +42,19 @@ export class AlbumsComponent implements OnInit, OnDestroy {
   private setSubscription() {
     this.subscription.add(
       this.albumItems$.subscribe((albumItems: AlbumItem[]) => {
-        this.albumItems = albumItems;
-        this.changeDetectorRef.detectChanges();
-        console.log('this.albumItems: ', this.albumItems);
-        this.loadingService.loading = false;
+        if (albumItems.length) {
+          this.albumItems = List(albumItems);
+          this.loadingService.stopLoading();
+          console.log('this.albumItems: ', this.albumItems);
+        } else {
+          this.loadingService.stopLoadingTimeout(5000);
+        }
       }),
     );
   }
 
   private loadData() {
     this.store.dispatch(new GetUsersSavedAlbums());
-  }
-
-  isTextOverflowing(element: HTMLElement): boolean {
-    if (element.scrollWidth > element.clientWidth) {
-      return true;
-    } else {
-      return false;
-    }
   }
 
   goToAlbum(albumItem: AlbumItem) {

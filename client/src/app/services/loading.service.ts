@@ -1,18 +1,29 @@
 import { Injectable } from '@angular/core';
+import { Subject } from 'rxjs';
 
 @Injectable()
 export class LoadingService {
+  loadingSubject: Subject<boolean>;
   loading: boolean;
 
   constructor() {
-    this.loading = false;
+    this.loadingSubject = new Subject<boolean>();
+    this.loadingSubject.subscribe((value: boolean) => {
+      this.loading = value;
+    });
   }
 
-  set _loading(isLoading: boolean) {
-    this.loading = isLoading;
+  startLoading() {
+    this.loadingSubject.next(true);
   }
 
-  get _loading(): boolean {
-    return this.loading;
+  stopLoading() {
+    this.loadingSubject.next(false);
+  }
+
+  stopLoadingTimeout(timeMs: number) {
+    setTimeout(() => {
+      this.stopLoading();
+    }, timeMs);
   }
 }

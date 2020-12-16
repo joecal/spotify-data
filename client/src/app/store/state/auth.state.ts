@@ -9,6 +9,8 @@ import {
 } from '../actions/auth.actions';
 import { environment } from '../../../environments/environment';
 import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
 
 export interface AuthStateModel {
   accessToken: string;
@@ -63,7 +65,6 @@ export class AuthState implements NgxsOnInit {
 
   @Action(LogOut)
   logOut(context: StateContext<AuthStateModel>): void {
-    console.log('logout');
     const state = context.getState();
     state.accessToken = null!;
     state.refreshToken = null!;
@@ -86,23 +87,24 @@ export class AuthState implements NgxsOnInit {
         Authorization: `Basic ${base64Creds}`,
       }),
     };
-    this.http
+    return this.http
       .post('https://accounts.spotify.com/api/token', body, options)
-      .toPromise()
-      .then((response: AuthTokenResponse | any) => {
-        this.setAccessToken(context, response.access_token);
-        this.setAccessTokenSetDate(context, new Date());
-        this.setAccessTokenExpirationDate(
-          context,
-          response.expires_in,
-        );
-        this.setAccessTokenExpirationSeconds(
-          context,
-          response.expires_in,
-        );
-        this.setRefreshToken(context, response.refresh_token);
-        this.ngZone.run(() => this.router.navigateByUrl('/'));
-      });
+      .pipe(
+        tap((response: AuthTokenResponse | any) => {
+          this.setAccessToken(context, response.access_token);
+          this.setAccessTokenSetDate(context, new Date());
+          this.setAccessTokenExpirationDate(
+            context,
+            response.expires_in,
+          );
+          this.setAccessTokenExpirationSeconds(
+            context,
+            response.expires_in,
+          );
+          this.setRefreshToken(context, response.refresh_token);
+          this.ngZone.run(() => this.router.navigateByUrl('/'));
+        }),
+      );
   }
 
   private checkLocalStorage(context: StateContext<AuthStateModel>) {
@@ -142,7 +144,6 @@ export class AuthState implements NgxsOnInit {
     state.accessToken = accessToken;
     context.patchState(state);
     localStorage.setItem('access_token', state.accessToken);
-    console.log('Token SET');
   }
 
   private setAccessTokenSetDate(
@@ -205,7 +206,7 @@ export class AuthState implements NgxsOnInit {
   refreshAccessToken(
     context: StateContext<AuthStateModel>,
     action: RefreshAccessToken,
-  ): void {
+  ): Observable<any> {
     const body = `grant_type=refresh_token&refresh_token=${action.refreshToken}`;
     const base64Creds = btoa(`${this.clientId}:${this.clientSecret}`);
     const options = {
@@ -214,19 +215,20 @@ export class AuthState implements NgxsOnInit {
         Authorization: `Basic ${base64Creds}`,
       }),
     };
-    this.http
+    return this.http
       .post('https://accounts.spotify.com/api/token', body, options)
-      .toPromise()
-      .then((response: AuthTokenResponse | any) => {
-        this.setAccessToken(context, response.access_token);
-        this.setAccessTokenExpirationDate(
-          context,
-          response.expires_in,
-        );
-        this.setAccessTokenExpirationSeconds(
-          context,
-          response.expires_in,
-        );
-      });
+      .pipe(
+        tap((response: AuthTokenResponse | any) => {
+          this.setAccessToken(context, response.access_token);
+          this.setAccessTokenExpirationDate(
+            context,
+            response.expires_in,
+          );
+          this.setAccessTokenExpirationSeconds(
+            context,
+            response.expires_in,
+          );
+        }),
+      );
   }
 }

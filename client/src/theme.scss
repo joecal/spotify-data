@@ -364,7 +364,8 @@ mat-icon {
   text-shadow: 0 0 10px mat-color($theme-primary, 'lighter') !important;
 }
 
-mat-card-subtitle {
+mat-card-subtitle,
+.mat-cell {
   color: mat-color($theme-accent, 'lighter') !important;
   text-shadow: 0 0 10px mat-color($theme-accent, 'lighter') !important;
 }
@@ -390,7 +391,8 @@ mat-sidenav-content {
 
 mat-card-title,
 .p-link,
-button {
+button,
+.mat-sort-header-content {
   color: mat-color($theme-primary, 'lighter') !important;
   text-shadow: 0 0 5px mat-color($theme-primary, 'lighter') !important;
 }
@@ -410,8 +412,6 @@ mat-card {
 }
 
 .active-route .mat-list-item-content {
-  color: mat-color($theme-primary, 'lighter') !important;
-  border-color: mat-color($theme-accent, 'lighter') !important;
   box-shadow: 0 0 5px #86fefc !important;
 }
 
@@ -451,4 +451,8 @@ mat-card {
 }
 ::-webkit-scrollbar-corner {
   background: transparent;
+}
+
+.mat-table {
+  background-color: mat-color($theme-accent) !important;
 }

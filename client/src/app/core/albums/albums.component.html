@@ -5,31 +5,10 @@
       *ngFor="let albumItem of albumItems"
       (click)="goToAlbum(albumItem)"
     >
-      <mat-card-header>
-        <mat-card-title
-          #albumName
-          class="elipsis"
-          [matTooltip]="
-            isTextOverflowing(albumName)
-              ? albumItem.album.name
-              : null!
-          "
-          >{{ albumItem.album.name }}</mat-card-title
-        >
-        <mat-card-subtitle
-          #artists
-          class="elipsis"
-          [matTooltip]="
-            isTextOverflowing(artists)
-              ? getArtistNames(albumItem.album.artists)
-              : null!
-          "
-        >
-          {{
-            getArtistNames(albumItem.album.artists)
-          }}</mat-card-subtitle
-        >
-      </mat-card-header>
+      <spotify-data-card-header
+        [title]="albumItem.album.name"
+        [subTitle]="getArtistNames(albumItem.album.artists)"
+      ></spotify-data-card-header>
       <img
         *ngIf="albumItem.album.images[0]"
         mat-card-image

@@ -5,19 +5,10 @@
       *ngFor="let artist of artists"
       (click)="goToArtist(artist)"
     >
-      <mat-card-header>
-        <mat-card-title
-          #artistName
-          class="elipsis"
-          [matTooltip]="
-            isTextOverflowing(artistName) ? artist.name : null!
-          "
-          >{{ artist.name }}</mat-card-title
-        >
-        <mat-card-subtitle
-          >Followers: {{ artist.followers.total }}</mat-card-subtitle
-        >
-      </mat-card-header>
+      <spotify-data-card-header
+        [title]="artist.name"
+        [subTitle]="'Followers: ' + artist.followers.total"
+      ></spotify-data-card-header>
       <img
         *ngIf="artist.images[0]"
         mat-card-image

@@ -23,20 +23,10 @@
             class="c-pointer card-item"
             (click)="goToArtist(artist)"
           >
-            <mat-card-header>
-              <mat-card-title
-                #artistName
-                class="elipsis"
-                [matTooltip]="
-                  isTextOverflowing(artistName) ? artist.name : null!
-                "
-                >{{ artist.name }}</mat-card-title
-              >
-              <mat-card-subtitle
-                >Followers:
-                {{ artist.followers.total }}</mat-card-subtitle
-              >
-            </mat-card-header>
+            <spotify-data-card-header
+              [title]="artist.name"
+              [subTitle]="'Followers: ' + artist.followers.total"
+            ></spotify-data-card-header>
             <img
               *ngIf="artist.images[0]"
               mat-card-image
@@ -65,31 +55,10 @@
       >
         <ng-template let-albumItem pTemplate="item">
           <mat-card class="c-pointer card-item">
-            <mat-card-header>
-              <mat-card-title
-                #albumName
-                class="elipsis"
-                [matTooltip]="
-                  isTextOverflowing(albumName)
-                    ? albumItem.album.name
-                    : null!
-                "
-                >{{ albumItem.album.name }}</mat-card-title
-              >
-              <mat-card-subtitle
-                #artists
-                class="elipsis"
-                [matTooltip]="
-                  isTextOverflowing(artists)
-                    ? getArtistNames(albumItem.album.artists)
-                    : null!
-                "
-              >
-                {{
-                  getArtistNames(albumItem.album.artists)
-                }}</mat-card-subtitle
-              >
-            </mat-card-header>
+            <spotify-data-card-header
+              [title]="albumItem.album.name"
+              [subTitle]="getArtistNames(albumItem.album.artists)"
+            ></spotify-data-card-header>
             <img
               *ngIf="albumItem.album.images[0]"
               mat-card-image

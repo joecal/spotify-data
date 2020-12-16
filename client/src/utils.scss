@@ -411,3 +411,11 @@
 .c-pointer {
   cursor: pointer;
 }
+
+.elipsis {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  width: 180px;
+  display: block;
+  overflow: hidden;
+}

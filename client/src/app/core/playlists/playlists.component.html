@@ -5,19 +5,10 @@
       *ngFor="let playlist of playlists"
       (click)="goToPlaylist(playlist)"
     >
-      <mat-card-header>
-        <mat-card-title
-          #playlistName
-          class="elipsis"
-          [matTooltip]="
-            isTextOverflowing(playlistName) ? playlist.name : null!
-          "
-          >{{ playlist.name }}</mat-card-title
-        >
-        <mat-card-subtitle
-          >Tracks: {{ playlist.tracks.total }}</mat-card-subtitle
-        >
-      </mat-card-header>
+      <spotify-data-card-header
+        [title]="playlist.name"
+        [subTitle]="'Tracks: ' + playlist.tracks.total"
+      ></spotify-data-card-header>
       <img
         *ngIf="playlist.images[0]"
         mat-card-image
