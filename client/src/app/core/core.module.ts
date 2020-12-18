@@ -10,6 +10,7 @@ import { ArtistsComponent } from './artists/artists.component';
 import { AlbumsComponent } from './albums/albums.component';
 import { LoadingComponent } from './loading/loading.component';
 import { CardHeaderComponent } from './card-header/card-header.component';
+import { SocketService } from '../services/socket.service';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,6 @@ import { CardHeaderComponent } from './card-header/card-header.component';
     CardHeaderComponent,
   ],
   imports: [SharedModule, CoreRoutingModule],
-  providers: [PlaylistsService],
+  providers: [PlaylistsService, SocketService],
 })
 export class CoreModule {}

@@ -4,10 +4,11 @@
 
 export const environment = {
   production: false,
-  clientId: '',
-  clientSecret: '',
+  clientId: 'e7e21464ea47408db0b4b5e2862b828e',
+  clientSecret: 'd5f8eda9add94a5d824abceeefd24ce6',
   redirectUri: 'http://localhost:4200/login',
   spotifyApiBaseUrl: 'https://api.spotify.com/v1',
+  socketBaseUrl: 'http://localhost:8080',
 };
 
 /*

@@ -1,4 +1,4 @@
-import Database from "./database";
+import Database from "./app/database";
 import App from "./app";
 
 const database: Database = new Database();
@@ -11,3 +11,8 @@ database.connect((error: any) => {
     app.listen();
   }
 });
+
+export default {
+  database,
+  app,
+};

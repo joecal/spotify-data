@@ -1,6 +1,7 @@
 import { Router, Request, Response } from "express";
+import { Controller } from "../models/controller.model";
 
-export default class PlaylistsController {
+export default class PlaylistsController implements Controller {
   router: Router = Router();
 
   constructor() {

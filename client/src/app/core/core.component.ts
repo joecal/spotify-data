@@ -12,6 +12,7 @@ import {
 } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { AuthService } from '../services/auth.service';
+import { SocketService } from '../services/socket.service';
 
 @Component({
   selector: 'spotify-data-core',
@@ -32,6 +33,7 @@ export class CoreComponent implements OnInit, OnDestroy {
     private router: Router,
     private authService: AuthService,
     private route: ActivatedRoute,
+    private socketService: SocketService,
   ) {
     this.subscription = new Subscription();
     this.toolBarTitle = this.setToolbarTitle(this.router.url);

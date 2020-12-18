@@ -4,4 +4,5 @@ export const environment = {
   clientSecret: '',
   redirectUri: 'https://joecal.dev/spotify-data/login',
   spotifyApiBaseUrl: 'https://api.spotify.com/v1',
+  socketBaseUrl: 'https://joecal.dev/spotify-data/api',
 };
