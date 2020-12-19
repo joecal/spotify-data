@@ -1,5 +1,5 @@
 import mongoose, { Schema } from "mongoose";
-import { Cursors, ExternalUrl, Followers, Image } from "./spotify-api.model";
+import { Cursors, ExternalUrl, Followers, Image } from "../spotify-api/spotify-api.model";
 
 export interface IArtist {
   external_urls: ExternalUrl;

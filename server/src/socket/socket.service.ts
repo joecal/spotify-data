@@ -1,13 +1,19 @@
+import Socket from "./";
 import { Client } from "socket.io/dist/client";
+import http from "http";
+const io = require("socket.io");
 
 interface SocketUserIdsDict {
   [key: string]: string;
 }
 
 export default class SocketService {
+  socket: typeof io;
+
   private socketUserIdsDict: SocketUserIdsDict;
 
-  constructor(private socket: any) {
+  constructor(private httpServer: http.Server) {
+    this.socket = new Socket(this.httpServer).socket;
     this.socketUserIdsDict = {};
     this.init();
   }

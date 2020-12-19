@@ -1,6 +1,6 @@
-import { Album } from "./album.model";
-import { IArtist } from "./artist.model";
-import { AddedBy, TrackVideoThumbnail, ExternalId, ExternalUrl } from "./spotify-api.model";
+import { Album } from "../albums/album.model";
+import { IArtist } from "../artists/artist.model";
+import { AddedBy, TrackVideoThumbnail, ExternalId, ExternalUrl } from "../spotify-api/spotify-api.model";
 
 export interface TrackItem {
   added_at: string;

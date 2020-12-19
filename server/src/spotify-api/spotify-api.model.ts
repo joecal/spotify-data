@@ -1,7 +1,7 @@
-import { AlbumItem } from "./album.model";
-import { IArtist } from "./artist.model";
-import { Playlist } from "./playlist.model";
-import { TrackItem } from "./track.model";
+import { AlbumItem } from "../albums/album.model";
+import { IArtist } from "../artists/artist.model";
+import { Playlist } from "../playlists/playlist.model";
+import { TrackItem } from "../track/track.model";
 
 export interface SpotifyGetApiResponse {
   href: string;

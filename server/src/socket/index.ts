@@ -2,14 +2,18 @@ import http from "http";
 const io = require("socket.io");
 
 export default class Socket {
-  socket: any;
+  socket: typeof io;
 
-  constructor(httpServer: http.Server) {
-    this.socket = io(httpServer, {
+  constructor(private httpServer: http.Server) {
+    this.socket = io(this.httpServer, {
       transports: ["websocket", "polling"],
       cors: {
         origin: "*",
       },
     });
+  }
+
+  get _socket() {
+    return this.socket;
   }
 }

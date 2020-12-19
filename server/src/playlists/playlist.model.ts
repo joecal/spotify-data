@@ -1,4 +1,4 @@
-import { ExternalUrl, Image } from './spotify-api.model';
+import { ExternalUrl, Image } from "../spotify-api/spotify-api.model";
 
 export interface Playlist {
   collaborative: boolean;
