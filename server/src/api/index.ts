@@ -1,8 +1,8 @@
 import { Router } from "express";
-import AlbumsController from "./albums.controller";
-import ArtistsController from "./artists.controller";
-import PlaylistsController from "./playlists.controller";
-import { Controller } from "../models/controller.model";
+import AlbumsController from "../albums/albums.controller";
+import ArtistsController from "../artists/artists.controller";
+import PlaylistsController from "../playlists/playlists.controller";
+import { Controller } from "../controller/controller.model";
 
 export default class Api {
   router: Router;

@@ -1,5 +1,5 @@
 import { Router, Request, Response } from "express";
-import { Controller } from "../models/controller.model";
+import { Controller } from "../controller/controller.model";
 
 export default class AlbumsController implements Controller {
   router: Router = Router();

@@ -1,4 +1,4 @@
-import { ExternalUrl, Followers, Image } from './spotify-api.model';
+import { ExternalUrl, Followers, Image } from "../spotify-api/spotify-api.model";
 
 export interface UserProfile {
   country: string;
