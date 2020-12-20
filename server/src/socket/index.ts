@@ -12,8 +12,4 @@ export default class Socket {
       },
     });
   }
-
-  get _socket() {
-    return this.socket;
-  }
 }
