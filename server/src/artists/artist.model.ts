@@ -27,7 +27,7 @@ export interface FollowedArtistsItems {
   total: number;
 }
 
-const Artist: Schema = new Schema({
+const ArtistSchema: Schema = new Schema({
   external_urls: {
     spotify: String,
   },
@@ -51,4 +51,4 @@ const Artist: Schema = new Schema({
   uri: String,
 });
 
-export default mongoose.model("Artist", Artist);
+export default mongoose.model<IArtist & mongoose.Document<IArtist>>("Artist", ArtistSchema);

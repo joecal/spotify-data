@@ -1,6 +1,7 @@
 import Api from "./api";
 import config from "./config";
 import SocketService from "./socket/socket.service";
+import { AuditEventService } from "./audit-event/audit-event.service";
 import Database from "./database";
 
 import express, { Application, NextFunction, Request, Response } from "express";
@@ -13,6 +14,7 @@ import http from "http";
 
 class App {
   socketService: SocketService;
+  auditEventService: AuditEventService;
 
   private app: Application;
   private middleWareList: any[];
@@ -39,11 +41,17 @@ class App {
   }
 
   private async intit(): Promise<void> {
-    this.middleWare(this.middleWareList);
-    this.errorStatusResponse();
-    this.routes();
-    await this.connectToDb();
-    this.listen();
+    try {
+      this.middleWare(this.middleWareList);
+      this.errorStatusResponse();
+      this.routes();
+      await this.connectToDb();
+      const httpServer: http.Server = await this.createServer();
+      this.socketService = new SocketService(httpServer);
+    } catch (error) {
+      // TODO: setup error handler to check if process needs to be exited or not
+      process.exit(1);
+    }
   }
 
   private middleWare(middleWareList: any): void {
@@ -70,15 +78,21 @@ class App {
     try {
       await this.database.connect();
     } catch (error) {
-      process.exit(1);
+      throw error;
     }
   }
 
-  private listen(): void {
-    const httpServer: http.Server = http.createServer(this.app).listen(config.port, "localhost", () => {
-      console.log(`Server listening at http://localhost:${config.port}`);
-      console.log(`Api listening at http://localhost:${config.port}/api`);
-      this.socketService = new SocketService(httpServer);
+  private createServer(): Promise<http.Server> {
+    return new Promise((resolve, reject) => {
+      try {
+        const httpServer: http.Server = http.createServer(this.app).listen(config.port, "localhost", () => {
+          console.log(`Server listening at http://localhost:${config.port}`);
+          console.log(`Api listening at http://localhost:${config.port}/api`);
+          resolve(httpServer);
+        });
+      } catch (error) {
+        reject(error);
+      }
     });
   }
 }

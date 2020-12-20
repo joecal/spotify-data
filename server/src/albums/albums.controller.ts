@@ -2,13 +2,18 @@ import { Router, Request, Response } from "express";
 import { Controller } from "../controller/controller.model";
 
 export default class AlbumsController implements Controller {
-  router: Router = Router();
+  router: Router;
 
   constructor() {
+    this.router = Router();
     this.init();
   }
 
   private init(): void {
+    this.routes();
+  }
+
+  private routes(): void {
     this.getAlbums();
   }
 

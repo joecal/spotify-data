@@ -6,7 +6,8 @@ import { Controller } from "../controller/controller.model";
 
 export default class Api {
   router: Router;
-  controllers: Controller[];
+
+  private controllers: Controller[];
 
   constructor() {
     this.router = Router();
@@ -19,7 +20,7 @@ export default class Api {
   }
 
   private routes(): void {
-    this.controllers.forEach((controller: any) => {
+    this.controllers.forEach((controller: Controller) => {
       this.router.use("/", controller.router);
     });
   }
